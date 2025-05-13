@@ -32,7 +32,18 @@ export default function HomePage() {
   }
 
   function handleSave(event: Event) {
-    setEvents([...events, event]);
+    setEvents((prev) => {
+      const idx = prev.findIndex(e => e.id === event.id);
+      if (idx !== -1) {
+        // 编辑：替换原事件
+        const copy = [...prev];
+        copy[idx] = event;
+        return copy;
+      } else {
+        // 新增
+        return [...prev, event];
+      }
+    });
   }
 
   function handleDelete(id: string) {
